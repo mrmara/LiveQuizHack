@@ -1,9 +1,9 @@
 import sys
 import cv2
-from image import image
-from webScraper import webScraper
+from include.image import image
+from include.webScraper import webScraper
 from sys import argv
-from webScraper import browserOpener
+from include.webScraper import browserOpener
 if __name__ == '__main__':
     debug=int(argv[1])
     key=0
