@@ -3,23 +3,23 @@ import pytesseract
 import os
 from termcolor import colored
 import colorama
-
+from config import *
 class image():
     """docstring for image."""
 
     def __init__(self,debug=0):
-        pytesseract.pytesseract.tesseract_cmd = r'C:\Users\a.marangi\AppData\Local\Tesseract-OCR\tesseract.exe'
+        pytesseract.pytesseract.tesseract_cmd = tesseract_cmd
           # Define config parameters.
           # '-l eng'  for using the English language
           # '--oem 1' for using LSTM OCR Engine
           # "--psm stays for page segmentation mode"
-        self.config = ('-l ita --oem 1 --psm 1')
-        self.imgName = 1
-        self.imgFormat = ".png"
-        self.cellScreenPath = "/storage/emulated/0/liveq/"
-        self.cellScreenCmd = "adb shell screencap -p "
-        self.cellPullCmd =  "adb pull "
-        self.pcScreenPath = r"C:\Users\a.marangi\Desktop\LVH\test_images"
+        self.config = config
+        self.imgName = imgName
+        self.imgFormat = imgFormat
+        self.cellScreenPath = cellScreenPath
+        self.cellScreenCmd = cellScreenCmd
+        self.cellPullCmd =  cellPullCmd
+        self.pcScreenPath = os.path.dirname(os.path.realpath(__file__))+"\\test_images"
         self.debug=debug
         f = open("stopwords.txt",'r')
         self.stopwords = f.read().splitlines()
