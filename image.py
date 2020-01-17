@@ -94,7 +94,7 @@ class image():
         if self.debug==1 or self.debug==2:
             self.loadFromFile()
             print()
-        elif self.debug==3:
+        elif self.debug==3 or self.debug==0:
             self.loadFromCell()
         self.cutImg()
         self.question=self.img2str(self.imgQuest)
