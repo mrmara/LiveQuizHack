@@ -4,6 +4,7 @@ from include.image import image
 from include.webScraper import webScraper
 from sys import argv
 from include.webScraper import browserOpener
+import os
 if __name__ == '__main__':
     debug=int(argv[1])
     key=0
@@ -11,6 +12,8 @@ if __name__ == '__main__':
         numSites=int(argv[2])
     else:
         numSites=7
+    os.system("cmd /c adb shell monkey -p com.bendingspoons.live.quiz -c android.intent.category.LAUNCHER 1")
+    input("Io sono Pronto, e tu?")
     my_image=image(debug) #debug 1=tutte info su pc 2 poche info su pc 3=tutte info su cell
     help=webScraper(debug,numSites)
     while key!=2:
