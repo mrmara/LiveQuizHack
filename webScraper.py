@@ -7,6 +7,7 @@ import urllib
 from termcolor import colored
 import colorama
 from image import image
+import webbrowser
 class webScraper():
 
     def __init__(self,debug,numSites):
@@ -16,7 +17,7 @@ class webScraper():
         colorama.init()
     def getLinks(self):
         body=requests.get("https://www.google.com/search?q="+self.question)
-        if self.debug==1:
+        if self.debug==1 or self.debug==3:
             print ("Io ho cercato questo URL:\n","https://www.google.com/search?q="+self.question)
         soup=BeautifulSoup(body.text,"lxml")
         linksList=[]
@@ -25,7 +26,7 @@ class webScraper():
                 linksList.append(link.get("href")[7:].split("&")[0].replace("%25","%"))
                 if len(linksList)>self.numSites-1:
                     break
-        if self.debug==1:
+        if self.debug==1 or self.debug==3:
             print(linksList)
         return linksList
 
@@ -83,3 +84,9 @@ class openAndCount (Thread):
             self.lockPrint.release()
             buff="\n-------"+"Thread "+currentThread().getName()+" rilascia il lock"+"------------\n"
             print(colored(buff,'green'))
+class browserOpener(Thread):
+    def __init__(self,url):
+        Thread.__init__(self)
+        self.url=url
+    def run(self):
+        webbrowser.open(self.url)

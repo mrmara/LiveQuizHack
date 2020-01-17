@@ -13,7 +13,7 @@ class image():
           # '-l eng'  for using the English language
           # '--oem 1' for using LSTM OCR Engine
           # "--psm stays for page segmentation mode"
-        self.config = ('-l eng --oem 1 --psm 1')
+        self.config = ('-l ita --oem 1 --psm 1')
         self.imgName = 1
         self.imgFormat = ".png"
         self.cellScreenPath = "/storage/emulated/0/liveq/"
@@ -52,28 +52,28 @@ class image():
         PcQuest=[300,550,0,1100] #[y1,y2,x1,x2]
         S8Ans=[550,1100,0,800]
         PcAns=[550,1100,0,1100]
-        if self.debug>=1:
+        if self.debug==1 or self.debug==2:
             print("CURRENTLY on PC")
             currentQuest=PcQuest
             currentAns=PcAns
         else:
             currentQuest=S8Quest
             currentAns=S8Ans
-        if self.debug==1:
+        if self.debug==1 or self.debug==3:
             cv2.namedWindow('Image',cv2.WINDOW_NORMAL)
             cv2.resizeWindow('Image',180,370)
             cv2.imshow('Image', self.img)
             cv2.waitKey(0)
         self.imgQuest = self.img[currentQuest[0]:currentQuest[1], currentQuest[2]:currentQuest[3]]
         self.imgQuest = cv2.threshold(self.imgQuest, 200, 255, cv2.THRESH_BINARY_INV)[1]
-        if self.debug==1:
+        if self.debug==1 or self.debug==3:
             cv2.namedWindow('Crop',cv2.WINDOW_NORMAL)
             cv2.resizeWindow('Crop',(currentQuest[3]-currentQuest[2]),(currentQuest[1]-currentQuest[0]))
             cv2.imshow('Crop', self.imgQuest)
             cv2.waitKey(0)
         self.imgAns = self.img[currentAns[0]:currentAns[1], currentAns[2]:currentAns[3]]
         self.imgAns = cv2.threshold(self.imgAns, 10, 255, cv2.THRESH_BINARY)[1]
-        if self.debug==1:
+        if self.debug==1 or self.debug==3:
             cv2.resizeWindow('Crop',(currentAns[3]-currentAns[2]),(currentAns[1]-currentAns[0]))
             cv2.imshow('Crop', self.imgAns)
             cv2.waitKey(0)
@@ -81,7 +81,7 @@ class image():
 
     def img2str(self,img):
         text = pytesseract.image_to_string(img, config=self.config)
-        return text
+        return text.replace("¢","è")
     def purgeQueries(self):
         for char in self.question:
             if char in self.stopchars:
@@ -91,10 +91,10 @@ class image():
         self.question = ' '.join(resultwords)
 
     def newQuest(self):
-        if self.debug>=1:
+        if self.debug==1 or self.debug==2:
             self.loadFromFile()
             print()
-        else:
+        elif self.debug==3:
             self.loadFromCell()
         self.cutImg()
         self.question=self.img2str(self.imgQuest)
@@ -102,7 +102,7 @@ class image():
         print(colored(self.question,'yellow'))
         print(colored(self.answearsRaw,'yellow'))
         array = self.answearsRaw.split('\n')
-        if self.debug==1:
+        if self.debug==1 or self.debug==3:
             print("OCR returned:")
             print (self.question,"\n",array)
         for item in array:
@@ -119,13 +119,13 @@ class image():
             print("OCR HA FALLITO")
             self.err=1
             return self.question, self.answears, self.err
-        if self.debug==1:
+        if self.debug==1 or self.debug==3:
             print("question and asnwears are:")
             print (self.question)
             print (self.answears)
         self.imgName = self.imgName+1
         self.purgeQueries()
-        if self.debug==1:
+        if self.debug==1 or self.debug==3:
             print("PURGED question and asnwears are:")
             print(self.question)
             print(self.answears)
