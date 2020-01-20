@@ -115,6 +115,8 @@ class image():
         if len(array)==3:
             self.answears = array[-3:]
             self.err=0
+        elif len(array)>3:
+            self.err=100
         else:
             print("OCR HA FALLITO")
             self.err=1

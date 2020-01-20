@@ -21,13 +21,14 @@ if __name__ == '__main__':
         while iter<=4:
             iter+=1
             question,answears,err = my_image.newQuest()
-            if not err:
+            if err==0:
                 browser=browserOpener("https://www.google.com/search?q="+question)
                 browser.setDaemon(True)
                 browser.start()
                 help.searchQuestion(question,answears)
                 break
-
+            elif err==100:
+                break
         key=0
         while not (key==1 or key==2):
             print("Attendo comandi: ")
