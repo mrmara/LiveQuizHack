@@ -113,10 +113,27 @@ class image():
                 array.remove(item)
         self.answears = []
         if len(array)==3:
-            self.answears = array[-3:]
+            self.answears = array
             self.err=0
         elif len(array)>3:
-            self.err=100
+            lenArray=[]
+            for item in array:
+                lenArray.append(len(item))
+            if self.debug>0:
+                print(lenArray)
+            while len(array)!=3:
+                minn=min(lenArray)
+                minIndex=lenArray.index(minn)
+                if self.debug>0:
+                    print(minIndex)
+                array[minIndex-1]+=" "
+                array[minIndex-1]+=array[minIndex]
+                array.pop(minIndex)
+                lenArray.pop(minIndex)
+                if self.debug>0:
+                    print(array)
+            self.answears = array
+            self.err=0
         else:
             print("OCR HA FALLITO")
             self.err=1

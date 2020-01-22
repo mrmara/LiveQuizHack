@@ -12,8 +12,9 @@ if __name__ == '__main__':
         numSites=int(argv[2])
     else:
         numSites=7
-    os.system("cmd /c adb shell monkey -p com.bendingspoons.live.quiz -c android.intent.category.LAUNCHER 1")
-    input("Io sono Pronto, e tu?")
+    if debug!=1 and debug!=2:
+        os.system("cmd /c adb shell monkey -p com.bendingspoons.live.quiz -c android.intent.category.LAUNCHER 1")
+        input("Io sono Pronto, e tu?")
     my_image=image(debug) #debug 1=tutte info su pc 2 poche info su pc 3=tutte info su cell
     help=webScraper(debug,numSites)
     while key!=2:
